@@ -1,16 +1,21 @@
 module alu(en, clk, aluk, a, b, o);
-    input wire[15:0] a, b;
-    input wire[1:0] aluk;
     input wire clk, en;
+    input wire[1:0] aluk;
+    input wire[5:0] ir_slice;
+    input wire[15:0] a, b;
 
     output wire[15:0] o;
 
     wire[15:0] alu_add, alu_and, alu_not, alu_pas;
+    wire[15:0] imm5_ext, b_mux;
     reg[15:0] alu_reg;
 
     /* We can do this the ugly way, or the wrong way... */
-    assign alu_add = a + b;
-    assign alu_and = a & b;
+    assign imm5_ext = { {11{ir_slice[4]}}, ir_slice[4:0]};
+    assign b_mux = ir_slice[5] ? imm5_ext : b;
+
+    assign alu_add = a + b_mux;
+    assign alu_and = a & b_mux;
     assign alu_not = ~a;
     assign alu_pas = a;
 
