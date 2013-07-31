@@ -7,10 +7,13 @@ module regfile(clk, dr_sel, sr1_sel, sr2_sel, dr_in, sr1_out, sr2_out, load_reg)
 
     reg[15:0] register_file [0:7];
 
-    always @(posedge clk) begin
+    always @(sr1_sel)
         sr1_out <= register_file[sr1_sel];
+
+    always @(sr2_sel)
         sr2_out <= register_file[sr2_sel];
 
+    always @(posedge clk) begin
         if(load_reg)
             register_file[dr_sel] <= dr_in;
     end
