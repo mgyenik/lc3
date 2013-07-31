@@ -28,9 +28,9 @@ module eab(ir_slice, r, pc, addr1_sel, addr2_sel, ea_out);
     always @(ir6_ext or ir9_ext or ir11_ext or addr2_sel) begin
         case(addr2_sel)
             0: mux2reg <= 16'b0;
-            1: mux2reg <= ir6_ext;
-            2: mux2reg <= ir9_ext;
-            3: mux2reg <= ir11_ext;
+            1: mux2reg <= ir6_ext << 1;
+            2: mux2reg <= ir9_ext << 1;
+            3: mux2reg <= ir11_ext << 1;
         endcase
     end
 endmodule
