@@ -6,6 +6,7 @@ module alu(en, clk, aluk, a, b, o);
 
     output wire[15:0] o;
 
+    wire[15:0] alu_mux1, alu_mux2, alu_mux;
     wire[15:0] alu_add, alu_and, alu_not, alu_pas;
     wire[15:0] imm5_ext, b_mux;
     reg[15:0] alu_reg;
