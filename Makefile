@@ -5,6 +5,7 @@ SRCS += marmux.v
 SRCS += pcl.v
 SRCS += irl.v
 SRCS += nzpl.v
+SRCS += shf.v
 
 all: computer
 
@@ -15,7 +16,7 @@ view: test
 	gtkwave lc3.vcd &>/dev/null
 
 computer:
-	iverilog -g2005 -o lc3.vvp $(SRCS)
+	iverilog -g2005 -Wall -o lc3.vvp $(SRCS)
 
 clean:
 	rm -f lc3.vvp
