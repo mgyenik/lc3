@@ -6,6 +6,10 @@ SRCS += pcl.v
 SRCS += irl.v
 SRCS += nzpl.v
 SRCS += shf.v
+SRCS += memory.v
+SRCS += datapath.v
+SRCS += control.v
+SRCS += lc3.v
 
 all: computer
 

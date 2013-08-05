@@ -1,5 +1,5 @@
-module eab(ir_slice, r, pc, addr1_sel, addr2_sel, ea_out);
-    input wire addr1_sel;
+module eab(ir_slice, r, pc, lshf1, addr1_sel, addr2_sel, ea_out);
+    input wire addr1_sel, lshf1;
     input wire[1:0] addr2_sel;
     input wire[10:0] ir_slice;
     input wire[15:0] r, pc;
@@ -12,7 +12,7 @@ module eab(ir_slice, r, pc, addr1_sel, addr2_sel, ea_out);
 
     assign mux1net = mux1reg;
     assign mux2net = mux2reg;
-    assign ea_out = mux1net + mux2net;
+    assign ea_out = mux1net + (mux2net << lshf1);
 
     assign ir6_ext  = { {10{ir_slice[5]}},  ir_slice[5:0]};
     assign ir9_ext  = { { 7{ir_slice[8]}},  ir_slice[8:0]};

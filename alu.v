@@ -1,5 +1,5 @@
-module alu(en, clk, aluk, a, b, o);
-    input wire clk, en;
+module alu(en, aluk, ir_slice, a, b, o);
+    input wire en;
     input wire[1:0] aluk;
     input wire[5:0] ir_slice;
     input wire[15:0] a, b;
@@ -17,7 +17,7 @@ module alu(en, clk, aluk, a, b, o);
 
     assign alu_add = a + b_mux;
     assign alu_and = a & b_mux;
-    assign alu_not = ~a;
+    assign alu_not = a ^ b_mux;
     assign alu_pas = a;
 
     assign alu_mux1 = aluk[0] ? alu_and : alu_add;

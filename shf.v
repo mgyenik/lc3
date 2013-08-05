@@ -14,7 +14,7 @@ module shf(en, r, ir_slice, shf_out);
             0: shf_mux <= r << ir_slice[3:0];
             1: shf_mux <= r >> ir_slice[3:0];
             2: shf_mux <= 16'hxxxx;
-            3: shf_mux <= r >>> ir_slice[3:0];
+            3: shf_mux <= $signed(r) >>> ir_slice[3:0];
         endcase
     end
 endmodule

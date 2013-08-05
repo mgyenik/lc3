@@ -1,11 +1,23 @@
-module regfile(clk, dr_sel, sr1_sel, sr2_sel, dr_in, sr1_out, sr2_out, load_reg);
-    input wire clk, load_reg;
-    input wire[2:0] dr_sel, sr1_sel, sr2_sel;
-    input wire[15:0] dr_in;
+module regfile(clk, ir_slice, sr1_mux, dr_mux, bus, sr1_out, sr2_out, load_reg);
+    input wire clk;
+    input wire dr_mux;
+    input wire sr1_mux;
+    input wire load_reg;
+    input wire[11:0] ir_slice;
+    input wire[15:0] bus;
 
-    output reg[15:0] sr1_out, sr2_out;
+    output reg[15:0] sr1_out;
+    output reg[15:0] sr2_out;
+
+    wire[2:0] dr_sel;
+    wire[2:0] sr1_sel;
+    wire[2:0] sr2_sel;
 
     reg[15:0] register_file [0:7];
+
+    assign dr_sel = dr_mux ? 3'b111 : ir_slice[11:9];
+    assign sr1_sel = sr1_mux ? ir_slice[8:6] : ir_slice[11:9];
+    assign sr2_sel = ir_slice[2:0];
 
     initial begin
         register_file[0] <= 16'b0;
@@ -26,6 +38,6 @@ module regfile(clk, dr_sel, sr1_sel, sr2_sel, dr_in, sr1_out, sr2_out, load_reg)
 
     always @(posedge clk) begin
         if(load_reg)
-            register_file[dr_sel] <= dr_in;
+            register_file[dr_sel] <= bus;
     end
 endmodule
