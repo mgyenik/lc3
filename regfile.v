@@ -14,6 +14,14 @@ module regfile(clk, ir_slice, sr1_mux, dr_mux, bus, sr1_out, sr2_out, load_reg);
     wire[2:0] sr2_sel;
 
     reg[15:0] register_file [0:7];
+    reg[15:0] r0;
+    reg[15:0] r1;
+    reg[15:0] r2;
+    reg[15:0] r3;
+    reg[15:0] r4;
+    reg[15:0] r5;
+    reg[15:0] r6;
+    reg[15:0] r7;
 
     assign dr_sel = dr_mux ? 3'b111 : ir_slice[11:9];
     assign sr1_sel = sr1_mux ? ir_slice[8:6] : ir_slice[11:9];
@@ -38,6 +46,14 @@ module regfile(clk, ir_slice, sr1_mux, dr_mux, bus, sr1_out, sr2_out, load_reg);
 
     always @(posedge clk) begin
         if(load_reg)
-            register_file[dr_sel] <= bus;
+            register_file[dr_sel] = bus;
+        r0 = register_file[0];
+        r1 = register_file[1];
+        r2 = register_file[2];
+        r3 = register_file[3];
+        r4 = register_file[4];
+        r5 = register_file[5];
+        r6 = register_file[6];
+        r7 = register_file[7];
     end
 endmodule

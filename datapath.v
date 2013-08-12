@@ -1,10 +1,15 @@
-module datapath(reset, clk, control_signals, bus);
+module datapath(reset, clk, control_signals, bus, ir_out, r, n, z, p);
 
     input wire reset;
     input wire clk;
     input wire[25:0] control_signals;
 
+    output wire r;
+    output wire n;
+    output wire z;
+    output wire p;
     output wire[15:0] bus;
+    output wire[15:0] ir_out;
 
     wire load_mar;
     wire load_mdr;
@@ -35,6 +40,7 @@ module datapath(reset, clk, control_signals, bus);
     wire[15:0] pc_out;
 
     reg[15:0] ir;
+    assign ir_out = ir;
 
     assign {load_mar, load_mdr, load_ir, load_ben, load_reg, load_cc, load_pc,
             gate_pc, gate_mdr, gate_alu, gate_marmux, gate_shf,
@@ -42,7 +48,8 @@ module datapath(reset, clk, control_signals, bus);
             aluk, mio_en, r_w, data_size, lshf1} = control_signals;
 
     always @(posedge clk)
-        if(load_ir) ir <= bus;
+        if(load_ir)
+            ir <= bus;
 
     eab eab_inst (ir[10:0], sr1_out, pc_out, lshf1, addr1_mux, addr2_mux, ea_out);
     pcl pcl_inst (gate_pc, clk, reset, bus, ea_out, pc_mux, load_pc, pc_out, bus);
@@ -50,6 +57,7 @@ module datapath(reset, clk, control_signals, bus);
     alu alu_inst (gate_alu, aluk, ir[5:0], sr1_out, sr2_out, bus);
     regfile regs (clk, ir[11:0], sr1_mux, dr_mux, bus, sr1_out, sr2_out, load_reg);
     shf shf_inst(gate_shf, sr1_out, ir[5:0], bus);
-    memory mem (gate_mdr, clk, data_size, r_w, load_mar, load_mdr, mio_en, bus, bus);
+    memory mem (gate_mdr, clk, data_size, r_w, load_mar, load_mdr, mio_en, bus, bus, r);
+    nzpl nzpl_inst (clk, reset, load_cc, bus, n, z, p);
 
 endmodule

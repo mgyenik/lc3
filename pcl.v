@@ -29,7 +29,7 @@ module pcl(en, clk, reset, bus, ea, pc_sel, load_pc, pc_ungated, pc_out);
                 pc_reg <= pc_reg;
         end
         else begin
-            pc_reg <= 16'b0;
+            pc_reg <= 16'h0200;
         end
     end
     
